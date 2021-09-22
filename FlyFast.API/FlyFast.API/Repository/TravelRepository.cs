@@ -1,4 +1,5 @@
 ﻿using FlyFast.API.Models;
+using FlyFast.API.Models.ViewModels;
 using log4net;
 using System;
 using System.Collections.Generic;
@@ -201,25 +202,25 @@ namespace FlyFast.API.Repository
 
         }
 
-        internal void CreateOrder(int tripId , Customer customer, List<TICKET_TYPE> ticketType)
+        internal void CreateOrder(ReservationViewModel reservation , Customer customer)
         {
-            List<Line> lines = CACHE.Trips.Where(x => x.Id == tripId).FirstOrDefault().Line;
+            List<Line> lines = CACHE.Trips.Where(x => x.Id == reservation.tripId ).FirstOrDefault().Line;
 
             float price = 0;
             if (lines.Count > 1)
             {
-                for (int i = 0; i < lines.Count; i++)
+                for (int i = 0; i < lines.Count ; i++)
                 {
-                    switch (ticketType[i])
+                    switch (reservation.Lines[i].TicketType)
                     {
                         case (TICKET_TYPE.SECOND_CLASS):
                             price += lines[i].Price;
-                            AddCustomerInPlane(customer, lines[i].Plane , ticketType[i]);
+                            AddCustomerInPlane(customer, lines[i].Plane , reservation.Lines[i].TicketType);
 
                             break;
                         case (TICKET_TYPE.FIRST_CLASS):
                             price += lines[i].Price * 2;
-                            AddCustomerInPlane(customer, lines[i].Plane, ticketType[i]);
+                            AddCustomerInPlane(customer, lines[i].Plane, reservation.Lines[i].TicketType);
                             break;
                     }
                 }
@@ -229,7 +230,7 @@ namespace FlyFast.API.Repository
             else
             {
                 price = lines.FirstOrDefault().Price;
-                AddCustomerInPlane(customer, lines.FirstOrDefault().Plane, ticketType.FirstOrDefault());
+                AddCustomerInPlane(customer, lines.FirstOrDefault().Plane, reservation.Lines.FirstOrDefault().TicketType);
             }
 
 

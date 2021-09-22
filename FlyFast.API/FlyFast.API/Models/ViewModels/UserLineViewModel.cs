@@ -8,7 +8,7 @@ namespace FlyFast.API.Models.ViewModels
     public class UserLineViewModel
     {
         public int LineId { get; set; }
-        public TICKET_TYPE TickerType { get; set; }
+        public TICKET_TYPE TicketType { get; set; }
        
     }
 }
