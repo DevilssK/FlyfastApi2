@@ -225,7 +225,7 @@ namespace FlyFast.API.Repository
 
             CACHE.Orders.Add(new Order()
             {
-                price = 1000,
+                priceEUR = 1000,
                 customer = new Customer()
                 {
                     Name = "toto"
@@ -237,7 +237,7 @@ namespace FlyFast.API.Repository
 
             CACHE.Orders.Add(new Order()
             {
-                price = 1000,
+                priceEUR = 1000,
                 customer = new Customer()
                 {
                     Name = "tutu"
@@ -249,20 +249,37 @@ namespace FlyFast.API.Repository
 
         }
 
-        internal void CreateOrder(ReservationViewModel reservation , Customer customer)
+        internal void CreateExternalOrder(ReservationViewModel reservation, Customer customer)
         {
-            List<Line> lines = CACHE.Trips.Where(x => x.Id == reservation.tripId ).FirstOrDefault().Line;
+            if (reservation.company == ExternalProfRepository.External_Name)
+                CACHE.Orders.Add(new Order()
+                {
+                    priceEUR = Convert.ToInt32(reservation.PriceEUR * 1.1),
+                    priceUSD = Convert.ToInt32(reservation.PriceUSD * 1.1),
+                    date = DateTime.Now,
+                    trip = new Trip()
+                    {
+                        Company = reservation.company
+                    },
+                    customer = customer
+                });
+        }
+
+
+        internal void CreateOrder(ReservationViewModel reservation, Customer customer)
+        {
+            List<Line> lines = CACHE.Trips.Where(x => x.Id == reservation.tripId).FirstOrDefault().Line;
 
             float price = 0;
             if (lines.Count > 1)
             {
-                for (int i = 0; i < lines.Count ; i++)
+                for (int i = 0; i < lines.Count; i++)
                 {
                     switch (reservation.Lines[i].TicketType)
                     {
                         case (TICKET_TYPE.SECOND_CLASS):
                             price += lines[i].Price;
-                            AddCustomerInPlane(customer, lines[i].Plane , reservation.Lines[i].TicketType);
+                            AddCustomerInPlane(customer, lines[i].Plane, reservation.Lines[i].TicketType);
 
                             break;
                         case (TICKET_TYPE.FIRST_CLASS):
@@ -283,7 +300,7 @@ namespace FlyFast.API.Repository
 
             CACHE.Orders.Add(new Order()
             {
-                price = price,
+                priceEUR = price,
                 date = DateTime.Now,
                 trip = CACHE.Trips.Where(x => x.Id == reservation.tripId).FirstOrDefault(),
                 customer = customer

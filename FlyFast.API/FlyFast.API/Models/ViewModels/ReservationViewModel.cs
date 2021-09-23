@@ -12,5 +12,7 @@ namespace FlyFast.API.Models.ViewModels
         public List<UserLineViewModel> Lines { get; set; }
         public float PriceEUR { get; set; }
         public float PriceUSD { get; set; }
+        public string date { get; set; }
+        public string company { get; set; }
     }
 }

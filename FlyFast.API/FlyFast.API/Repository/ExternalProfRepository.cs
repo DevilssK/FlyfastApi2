@@ -19,7 +19,7 @@ namespace FlyFast.API.Repository
         #endregion
 
         const string URL_API_PROF = "https://api-6yfe7nq4sq-uc.a.run.app";
-        const string External_Name = "PROF_COMPANY";
+        public const string External_Name = "PROF_COMPANY";
 
 
         public async Task<List<ExTrip>> GetExFlights(DateTime date)
