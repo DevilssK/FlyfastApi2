@@ -239,7 +239,7 @@ namespace FlyFast.API.Repository
 
             CACHE.Orders.Add(new Order()
             {
-                price = 1000,
+                priceEUR = 1000,
                 customer = new Customer()
                 {
                     Name = "toto"
@@ -251,7 +251,7 @@ namespace FlyFast.API.Repository
 
             CACHE.Orders.Add(new Order()
             {
-                price = 1000,
+                priceEUR = 1000,
                 customer = new Customer()
                 {
                     Name = "tutu"
@@ -262,6 +262,23 @@ namespace FlyFast.API.Repository
             });
 
         }
+
+        internal void CreateExternalOrder(ReservationViewModel reservation, Customer customer)
+        {
+            if (reservation.company == ExternalProfRepository.External_Name)
+                CACHE.Orders.Add(new Order()
+                {
+                    priceEUR = Convert.ToInt32(reservation.PriceEUR * 1.1),
+                    priceUSD = Convert.ToInt32(reservation.PriceUSD * 1.1),
+                    date = DateTime.Now,
+                    trip = new Trip()
+                    {
+                        Company = reservation.company
+                    },
+                    customer = customer
+                });
+        }
+
 
         internal void CreateOrder(ReservationViewModel reservation, Customer customer)
         {
@@ -297,7 +314,7 @@ namespace FlyFast.API.Repository
 
             CACHE.Orders.Add(new Order()
             {
-                price = price,
+                priceEUR = price,
                 date = DateTime.Now,
                 trip = CACHE.Trips.Where(x => x.Id == reservation.tripId).FirstOrDefault(),
                 customer = customer

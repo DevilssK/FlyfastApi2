@@ -157,9 +157,16 @@ namespace FlyFast.API.Controllers
 
             Customer customer = new Customer();
             customer.Name = reservation.customerName;
-            Trip trip = CACHE.Trips.Where(x => x.Id == reservation.tripId).FirstOrDefault();
-            _repository.CreateOrder(reservation , customer);
-            return new HttpResponseMessage(HttpStatusCode.OK) ;
+            if (reservation.company == "FLY_FAST_COMPANY")
+            {
+                _repository.CreateOrder(reservation, customer);
+                return new HttpResponseMessage(HttpStatusCode.OK);
+            }
+            else
+            {
+                _repository.CreateExternalOrder(reservation, customer);
+                return new HttpResponseMessage(HttpStatusCode.OK);
+            }
         }
     }
 }
