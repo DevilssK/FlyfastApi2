@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -7,7 +8,10 @@ namespace FlyFast.API.Models.ExternalModels
 {
     public class ExOptions
     {
-        public ExOptionType optionsType;
-        public int price;
+        [JsonProperty("option_type")]
+        public string optionsType;
+
+        [JsonProperty("price")]
+        public float price;
     }
 }

@@ -10,7 +10,7 @@ namespace FlyFast.API.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page";
+            ViewBag.Title = "FLY FAST - API";
 
             return View();
         }

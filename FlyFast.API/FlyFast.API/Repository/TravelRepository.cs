@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace FlyFast.API.Repository
@@ -21,160 +22,206 @@ namespace FlyFast.API.Repository
 
         public void LoadData()
         {
-            var plane = new Plane();
-            plane.MaxPlaces = 300;
-            plane.NbrPlaceFirstClass = 0;
 
 
-            var plane6 = new Plane();
-            plane6.MaxPlaces = 700;
-            plane6.NbrPlaceFirstClass = Convert.ToInt32(plane6.MaxPlaces * 0.1F);
 
-            var plane1 = new Plane();
-            plane1.MaxPlaces = 300;
-            plane1.NbrPlaceFirstClass = 0;
-
-            var plane2 = new Plane();
-            plane2.MaxPlaces = 700;
-            plane2.NbrPlaceFirstClass = Convert.ToInt32(plane2.MaxPlaces * 0.1F);
-
-            var plane3 = new Plane();
-            plane3.MaxPlaces = 700;
-            plane3.NbrPlaceFirstClass = Convert.ToInt32(plane3.MaxPlaces * 0.1F);
-
-            var plane4 = new Plane();
-            plane4.MaxPlaces = 1000;
-            plane4.NbrPlaceFirstClass = Convert.ToInt32(plane4.MaxPlaces * 0.1F);
-
-            var plane5 = new Plane();
-            plane5.MaxPlaces = 1000;
-            plane5.NbrPlaceFirstClass = Convert.ToInt32(plane5.MaxPlaces * 0.1F);
-
-            int i = 1;
-            CACHE.Trips.Add(new Trip()
+            for (int i = 0; i < 30; i++)
             {
-                Id = i,
-                Line = new List<Line>()
+                CACHE.Trips.Add(new Trip()
+                {
+                    Id = CACHE.GenerateIdTrip,
+                    Line = new List<Line>()
                 {
                   new Line()
                   {
-                      Id= 1,
+                      Id= CACHE.GenerateIdLine,
                     Departure = AIRPORT.JFK.ToString(),
                     Arrived = AIRPORT.DTW.ToString(),
-                    Plane = plane,
+                    Plane = new Plane() {
+                        MaxPlaces = 300,
+                        NbrPlaceFirstClass = 0,
+                        Options =  new List<Option> ()
+                    },
                     Price = 300,
-                    Date = DateTime.Now.AddDays(5)
+                    Date = DateTime.Now.AddDays(i),
                   },
                   new Line()
                   {
-                         Id= 2,
+                         Id= CACHE.GenerateIdLine,
                     Departure = AIRPORT.DTW.ToString(),
                     Arrived = AIRPORT.CDG.ToString(),
-                    Plane = plane6,
+                    Plane = new Plane() {
+                        MaxPlaces = 700,
+                        NbrPlaceFirstClass = Convert.ToInt32(700 * 0.1F),
+                        Options =  new List<Option>()
+                        {
+                            new Option()
+                            {
+                                Name = "FirstClass",
+                                Price = 700*100/100
+                            }
+                        }
+                    },
                     Price = 700,
-                     Date = DateTime.Now.AddDays(6)
+                     Date = DateTime.Now.AddDays(i).AddHours(8)
                   }
                 }
-               ,
-                Date = DateTime.Now.AddDays(5),
-            });
+                  ,
+                    Date = DateTime.Now.AddDays(i),
+                });
 
-            i++;
-            CACHE.Trips.Add(new Trip()
-            {
-                Id = i,
-                Line = new List<Line>()
+
+                CACHE.Trips.Add(new Trip()
+                {
+                    Id = CACHE.GenerateIdTrip,
+                    Line = new List<Line>()
                 {
                   new Line()
                   {
-                         Id= 3,
+                         Id= CACHE.GenerateIdLine,
                     Departure = AIRPORT.JFK.ToString(),
                     Arrived = AIRPORT.DTW.ToString(),
-                    Plane = plane1,
+                    Plane = new Plane() {
+                        MaxPlaces = 300,
+                        NbrPlaceFirstClass = 0,
+                        Options =  new List<Option> ()
+                    },
                     Price = 300,
-                       Date = DateTime.Now.AddDays(5)
+                       Date = DateTime.Now.AddDays(i)
                   }
                 },
-                Date = DateTime.Now.AddDays(5),
+                    Date = DateTime.Now.AddDays(i),
 
-            });
+                });
 
-            i++;
-            CACHE.Trips.Add(new Trip()
-            {
-                Id = i,
-                Line = new List<Line>()
+
+                CACHE.Trips.Add(new Trip()
+                {
+                    Id = CACHE.GenerateIdTrip,
+                    Line = new List<Line>()
                 {
                   new Line()
                   {
-                         Id= 4,
+                         Id= CACHE.GenerateIdLine,
                     Departure = AIRPORT.CDG.ToString(),
                     Arrived = AIRPORT.DTW.ToString(),
-                    Plane = plane2,
+                    Plane = new Plane() {
+                        MaxPlaces = 700,
+                        NbrPlaceFirstClass = Convert.ToInt32(700 * 0.1F),
+                        Options =  new List<Option>()
+                        {
+                            new Option()
+                            {
+                                Name = "FirstClass",
+                                Price = 700*100/100
+                            }
+                        }
+                    },
                     Price = 700,
-                       Date = DateTime.Now.AddDays(5)
+                       Date = DateTime.Now.AddDays(i)
                   }
                 },
-                Date = DateTime.Now.AddDays(5)
-            });
+                    Date = DateTime.Now.AddDays(i)
+                });
 
-            i++;
-            CACHE.Trips.Add(new Trip()
-            {
-                Id = i,
-                Line = new List<Line>()
+
+                CACHE.Trips.Add(new Trip()
+                {
+                    Id = CACHE.GenerateIdTrip,
+                    Line = new List<Line>()
                 {
                   new Line()
                   {
-                         Id= 5,
+                         Id= CACHE.GenerateIdLine,
                     Departure = AIRPORT.DTW.ToString(),
                     Arrived = AIRPORT.CDG.ToString(),
-                    Plane = plane3,
+                    Plane = new Plane() {
+                        MaxPlaces = 700,
+                        NbrPlaceFirstClass = Convert.ToInt32(700 * 0.1F),
+                        Options =  new List<Option>()
+                        {
+                            new Option()
+                            {
+                                Name = "FirstClass",
+                                Price = 700*100/100
+                            }
+                        }
+                    },
                     Price = 700,
-                       Date = DateTime.Now.AddDays(5)
+                       Date = DateTime.Now.AddDays(i)
                   }
                 },
-                Date = DateTime.Now.AddDays(5),
-            });
+                    Date = DateTime.Now.AddDays(i),
+                });
 
-            i++;
 
-            CACHE.Trips.Add(new Trip()
-            {
-                Id = i,
-                Line = new List<Line>()
+
+                CACHE.Trips.Add(new Trip()
+                {
+                    Id = CACHE.GenerateIdTrip,
+                    Line = new List<Line>()
                 {
                   new Line()
                   {
-                         Id= 6,
+                         Id= CACHE.GenerateIdLine,
                     Departure = AIRPORT.JFK.ToString(),
                     Arrived = AIRPORT.CDG.ToString(),
-                    Plane = plane4,
+                    Plane = new Plane() {
+                        MaxPlaces = 1000,
+                        NbrPlaceFirstClass = Convert.ToInt32(1000 * 0.1F),
+                        Options =  new List<Option>()
+                        {
+                            new Option()
+                            {
+                                Name = "FirstClass",
+                                Price = 1000*100/100
+                            }
+                        }
+                    },
                     Price = 1000,
-                    Date = DateTime.Now.AddDays(5)
+                    Date = DateTime.Now.AddDays(i)
                   }
                 },
-                Date = DateTime.Now.AddDays(5),
-            });
+                    Date = DateTime.Now.AddDays(i),
+                });
 
-            i++;
-            CACHE.Trips.Add(new Trip()
-            {
-                Id = i,
-                Line = new List<Line>()
+
+                CACHE.Trips.Add(new Trip()
+                {
+                    Id = CACHE.GenerateIdTrip,
+                    Line = new List<Line>()
                 {
                   new Line()
                   {
-                         Id= 7,
+                    Id=CACHE.GenerateIdLine,
                     Departure = AIRPORT.CDG.ToString(),
                     Arrived = AIRPORT.JFK.ToString(),
-                    Plane = plane5,
+                    Plane = new Plane() {
+                        MaxPlaces = 1000,
+                        NbrPlaceFirstClass = Convert.ToInt32(1000 * 0.1F),
+                        Options =  new List<Option>()
+                        {
+                            new Option()
+                            {
+                                Name = "FirstClass",
+                                Price = 1000*100/100
+                            }
+                        }
+                    },
                     Price = 1000,
-                    Date = DateTime.Now.AddDays(5)
+                    Date = DateTime.Now.AddDays(i)
                   }
                 },
-                Date = DateTime.Now.AddDays(5),
-            });
+                    Date = DateTime.Now.AddDays(i),
+                });
+
+            }
+
+
+
+            //========================================================
+            // Fake Data Cache Order.
+            //========================================================
 
             CACHE.Orders.Add(new Order()
             {
@@ -243,17 +290,17 @@ namespace FlyFast.API.Repository
             });
         }
 
-        public void AddCustomerInPlane(Customer customer, Plane plane , TICKET_TYPE type)
+        public void AddCustomerInPlane(Customer customer, Plane plane, TICKET_TYPE type)
         {
-            if (type == TICKET_TYPE.FIRST_CLASS )
+            if (type == TICKET_TYPE.FIRST_CLASS)
             {
                 int leftPlaces = FirstClassInvalibility(plane);
-                if(leftPlaces > 0 )
-                plane.Customers.Add(customer);
+                if (leftPlaces > 0)
+                    plane.Customers.Add(customer);
             }
         }
 
-     
+
 
 
         public List<Trip> GetTravels()

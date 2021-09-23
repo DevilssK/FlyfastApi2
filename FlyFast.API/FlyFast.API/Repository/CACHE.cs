@@ -15,6 +15,32 @@ namespace FlyFast.API.Repository
 
 
         }
+
+        private static int _idTrip = 0;
+
+        public static int GenerateIdTrip
+        {
+            get
+            {
+                _idTrip++;
+                return _idTrip;
+
+            }
+        }
+
+        private static int _idLine = 0;
+
+        public static int GenerateIdLine
+        {
+            get
+            {
+                _idLine++;
+                return _idLine;
+
+            }
+        }
+
+
         public static List<Trip> Trips = new List<Trip>();
 
         public static List<Order> Orders = new List<Order>();
@@ -27,14 +53,14 @@ namespace FlyFast.API.Repository
             {
                 using (DeviseRepository deviseRepository = new DeviseRepository())
                 {
-                    _devises =  await deviseRepository.GetDevises();
+                    _devises = await deviseRepository.GetDevises();
                 }
             }
             else if (_devises.FirstOrDefault().CurrentDate.Date != DateTime.Now.Date)
             {
                 using (DeviseRepository deviseRepository = new DeviseRepository())
                 {
-                    _devises = await  deviseRepository.GetDevises();
+                    _devises = await deviseRepository.GetDevises();
                 }
             }
 

@@ -9,6 +9,7 @@ namespace FlyFast.API.Models
     {
         public Trip()
         {
+            this.Company = "FLY_FAST_COMPANY";
             this.Line = new List<Line>();
 
         }
@@ -16,7 +17,8 @@ namespace FlyFast.API.Models
        
         public DateTime Date { get; set; }
 
-        public List<Line> Line { get; set; }      
+        public List<Line> Line { get; set; }
+        public string Company { get; internal set; }
 
         //public float PriceFirstClass { get; set; }
         //private float _priceSecondClass;
