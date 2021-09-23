@@ -10,7 +10,6 @@ namespace FlyFast.API.Models.ViewModels
         public string customerName { get; set; }
         public int tripId { get; set; }
         public List<UserLineViewModel> Lines { get; set; }
-        public List<TICKET_TYPE> ticketTypes { get; set; }
         public float PriceEUR { get; set; }
         public float PriceUSD { get; set; }
     }

@@ -238,7 +238,7 @@ namespace FlyFast.API.Repository
             {
                 price = price,
                 date = DateTime.Now,
-                trip = CACHE.Trips.Where(x => x.Id == tripId).FirstOrDefault(),
+                trip = CACHE.Trips.Where(x => x.Id == reservation.tripId).FirstOrDefault(),
                 customer = customer
             });
         }
