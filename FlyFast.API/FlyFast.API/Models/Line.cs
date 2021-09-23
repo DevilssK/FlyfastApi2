@@ -7,6 +7,11 @@ namespace FlyFast.API.Models
 {
     public class Line
     {
+        public Line()
+        {
+
+        }
+
         public int Id { get; set; }
         public string Departure { get; set; }
         public string Arrived { get; set; }

@@ -24,6 +24,7 @@ namespace FlyFast.API.Controllers
         #endregion
         TravelRepository _repository = new TravelRepository();
         DeviseRepository _DeviseRepository = new DeviseRepository();
+        ExternalProfRepository externalProfRepository = new ExternalProfRepository();
 
         [HttpGet]
         [Route("Rate")]
@@ -39,23 +40,39 @@ namespace FlyFast.API.Controllers
 
         [HttpGet]
         [Route("Travels")]
-        public List<Trip> GetListOfTravel()
+        public async Task<List<Trip>> GetListOfTravel()
         {
             List<Trip> trips = new List<Trip>();
 
             trips = _repository.GetTravels();
+
+            using (externalProfRepository)
+            {
+                trips.AddRange(externalProfRepository.GetTripExternal(await externalProfRepository.GetExFlights(DateTime.Now.AddDays(1))));
+            }
 
             return trips;
         }
 
+        /// <summary>
+        /// Retrived list of Trip by Date.
+        /// </summary>
+        /// <param name="date">Date of travel</param>
+        /// <returns></returns>
         [HttpGet]
         [Route("Travels")]
-        public List<Trip> GetListOfTravel([FromUri] string date)
+        public async Task<List<Trip>> GetListOfTravel(DateTime date)
         {
             List<Trip> trips = new List<Trip>();
 
             trips = _repository.GetTravels();
-            var sortedTrip = trips.Where(x => x.Date == Convert.ToDateTime(date)).ToList();  
+            var sortedTrip = trips.Where(x => x.Date.Date == date.Date).ToList();
+
+            using (externalProfRepository)
+            {
+                sortedTrip.AddRange(externalProfRepository.GetTripExternal(await externalProfRepository.GetExFlights(date.Date)));
+            }
+
             return sortedTrip;
         }
 
@@ -103,11 +120,11 @@ namespace FlyFast.API.Controllers
                     Lines.Add(oneLine);
                 }
             }
-            
-            List<Line> SortedLines = Lines.Where(x=>x.Date == Convert.ToDateTime(date)).ToList();
+
+            List<Line> SortedLines = Lines.Where(x => x.Date == Convert.ToDateTime(date)).ToList();
             return SortedLines;
         }
-            
+
 
         [HttpGet]
         [Route("Orders")]
@@ -137,12 +154,12 @@ namespace FlyFast.API.Controllers
             _logger.Debug("Request [Route('Book')] ");
             _logger.Debug($"ViewModel en param  : {Newtonsoft.Json.JsonConvert.SerializeObject(reservation)}");
             _logger.Debug("================================================================");
-            
+
             Customer customer = new Customer();
             customer.Name = reservation.customerName;
             Trip trip = CACHE.Trips.Where(x => x.Id == reservation.tripId).FirstOrDefault();
-            _repository.CreateOrder(reservation.tripId, customer, reservation.ticketTypes);
-            return new HttpResponseMessage(HttpStatusCode.OK) ;
+            _repository.CreateOrder(reservation.tripId, customer, reservation.Lines.Select(x => x.TickerType).ToList());
+            return new HttpResponseMessage(HttpStatusCode.OK);
         }
     }
 }
