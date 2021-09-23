@@ -12,6 +12,9 @@ namespace FlyFast.API.Models.ViewModels
         public string customerName { get; set; }
         public int tripId { get; set; }
         public List<UserLineViewModel> Lines { get; set; }
+        
+        [Required]
+        public int BasePrice { get; set; }
 
         [Required]
         public float PriceEUR { get; set; }

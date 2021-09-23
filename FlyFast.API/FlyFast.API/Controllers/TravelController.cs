@@ -164,12 +164,19 @@ namespace FlyFast.API.Controllers
             customer.Name = reservation.customerName;
             if (reservation.company == "FLY_FAST_COMPANY")
             {
-               
                 return Ok(_repository.CreateOrder(reservation, customer));
             }
             else
             {
-                
+                try
+                {
+                   await externalProfRepository.PostExBook(reservation);
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex);
+                }
+
                 return Ok(_repository.CreateExternalOrder(reservation, customer));
             }
         }

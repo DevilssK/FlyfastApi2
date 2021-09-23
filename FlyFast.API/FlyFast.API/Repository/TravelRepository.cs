@@ -272,8 +272,9 @@ namespace FlyFast.API.Repository
             {
                 anOrder = new Order()
                 {
-                    priceEUR = Convert.ToInt32(reservation.PriceEUR * 1.1),
-                    priceUSD = Convert.ToInt32(reservation.PriceUSD * 1.1),
+                    priceEUR = Convert.ToInt32(reservation.PriceEUR),
+                    priceUSD = Convert.ToInt32(reservation.PriceUSD),
+                    basePrice = Convert.ToInt32(reservation.BasePrice),
                     date = DateTime.Now,
                     trip = new Trip()
                     {
@@ -322,6 +323,7 @@ namespace FlyFast.API.Repository
             {
                 priceEUR = reservation.PriceEUR,
                 priceUSD = reservation.PriceUSD,
+                basePrice = Convert.ToInt32(reservation.BasePrice),
                 company = reservation.company,
                 date = DateTime.Now,
                 trip = CACHE.Trips.Where(x => x.Id == reservation.tripId).FirstOrDefault(),

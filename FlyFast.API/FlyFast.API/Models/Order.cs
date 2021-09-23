@@ -9,6 +9,7 @@ namespace FlyFast.API.Models
     {
         public float priceEUR { get; set; }
         public float priceUSD { get; set; }
+        public float basePrice { get; set; }
         public Customer customer { get; set; }
         public Trip trip { get; set; }
         public DateTime date { get; set; }
