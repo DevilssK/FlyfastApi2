@@ -40,9 +40,11 @@ namespace FlyFast.API.Repository
                     Plane = new Plane() {
                         MaxPlaces = 300,
                         NbrPlaceFirstClass = 0,
-                        Options =  new List<Option> ()
+                        Options =  new List<Option> (),
                     },
                     Price = 300,
+                    CommissionPercentage = 0,
+                    BasePrice = 300 ,
                     Date = DateTime.Now.AddDays(i),
                   },
                   new Line()
@@ -63,6 +65,8 @@ namespace FlyFast.API.Repository
                         }
                     },
                     Price = 700,
+                       CommissionPercentage = 0,
+                    BasePrice = 300 ,
                      Date = DateTime.Now.AddDays(i).AddHours(8)
                   }
                 }
@@ -87,6 +91,8 @@ namespace FlyFast.API.Repository
                         Options =  new List<Option> ()
                     },
                     Price = 300,
+                       CommissionPercentage = 0,
+                    BasePrice = 300 ,
                        Date = DateTime.Now.AddDays(i)
                   }
                 },
@@ -118,6 +124,8 @@ namespace FlyFast.API.Repository
                         }
                     },
                     Price = 700,
+                       CommissionPercentage = 0,
+                    BasePrice = 300 ,
                        Date = DateTime.Now.AddDays(i)
                   }
                 },
@@ -148,6 +156,8 @@ namespace FlyFast.API.Repository
                         }
                     },
                     Price = 700,
+                       CommissionPercentage = 0,
+                    BasePrice = 300 ,
                        Date = DateTime.Now.AddDays(i)
                   }
                 },
@@ -179,6 +189,8 @@ namespace FlyFast.API.Repository
                         }
                     },
                     Price = 1000,
+                       CommissionPercentage = 0,
+                    BasePrice = 300 ,
                     Date = DateTime.Now.AddDays(i)
                   }
                 },
@@ -209,6 +221,8 @@ namespace FlyFast.API.Repository
                         }
                     },
                     Price = 1000,
+                       CommissionPercentage = 0,
+                    BasePrice = 300 ,
                     Date = DateTime.Now.AddDays(i)
                   }
                 },
@@ -249,20 +263,20 @@ namespace FlyFast.API.Repository
 
         }
 
-        internal void CreateOrder(ReservationViewModel reservation , Customer customer)
+        internal void CreateOrder(ReservationViewModel reservation, Customer customer)
         {
-            List<Line> lines = CACHE.Trips.Where(x => x.Id == reservation.tripId ).FirstOrDefault().Line;
+            List<Line> lines = CACHE.Trips.Where(x => x.Id == reservation.tripId).FirstOrDefault().Line;
 
             float price = 0;
             if (lines.Count > 1)
             {
-                for (int i = 0; i < lines.Count ; i++)
+                for (int i = 0; i < lines.Count; i++)
                 {
                     switch (reservation.Lines[i].TicketType)
                     {
                         case (TICKET_TYPE.SECOND_CLASS):
                             price += lines[i].Price;
-                            AddCustomerInPlane(customer, lines[i].Plane , reservation.Lines[i].TicketType);
+                            AddCustomerInPlane(customer, lines[i].Plane, reservation.Lines[i].TicketType);
 
                             break;
                         case (TICKET_TYPE.FIRST_CLASS):

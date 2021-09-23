@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace FlyFast.API.Models
+namespace FlyFastApiProvider.Models
 {
     public class Line
     {
