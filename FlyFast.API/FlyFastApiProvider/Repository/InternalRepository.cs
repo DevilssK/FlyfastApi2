@@ -1,9 +1,13 @@
 ﻿using FlyFastApiProvider.Models;
+using FlyFastApiProvider.Models.ViewModels;
+using log4net;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -11,6 +15,12 @@ namespace FlyFastApiProvider.Repository
 {
     public class InternalRepository : IDisposable
     {
+
+        #region [Logger]
+        private static ILog _logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        #endregion
+
+
         const string URL_INTERNAL = "http://nelsonintech-001-site1.itempurl.com";
 
         public async Task<List<Trip>> GetTravelJson(DateTime Date)
@@ -20,13 +30,15 @@ namespace FlyFastApiProvider.Repository
             using (HttpClient client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Accept.Clear();
-                HttpResponseMessage response = await client.GetAsync($"{URL_INTERNAL}/Travels/?date={Date.ToString("yyyy-MM-dd")}");
+                HttpResponseMessage response = await client.GetAsync($"{URL_INTERNAL}/TravelsCache/?date={Date.ToString("yyyy-MM-dd")}");
 
                 if (response.IsSuccessStatusCode)
                 {
                     var body = await response.Content.ReadAsStringAsync();
 
                     trips = JsonConvert.DeserializeObject<List<Trip>>(body);
+
+                  
                 }
             }
 
@@ -38,6 +50,37 @@ namespace FlyFastApiProvider.Repository
             string travelsJson = string.Empty;
 
             return travelsJson;
+        }
+
+        internal async Task<bool> CreateOrder(ReservationViewModel reservation)
+        {
+            bool isCreated = false;
+
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Accept.Clear();
+
+                    var stringExTicket = JsonConvert.SerializeObject(reservation);
+
+                    var httpContent = new StringContent(stringExTicket, Encoding.UTF8, "application/json");
+
+                    HttpResponseMessage response = await client.PostAsync($"{URL_INTERNAL}/Book", httpContent);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var body = await response.Content.ReadAsStringAsync();
+                        isCreated = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Debug(ex);
+            }
+
+            return isCreated;
         }
 
         public void Dispose()

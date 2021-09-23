@@ -88,9 +88,9 @@ namespace FlyFast.API.Repository
         }
 
 
-        public async Task PostExBook(ReservationViewModel reservationViewModel)
+        public async Task<bool> PostExBook(ReservationViewModel reservationViewModel)
         {
-
+            bool isBooked = false;
             try
             {
                 using (HttpClient client = new HttpClient())
@@ -106,6 +106,7 @@ namespace FlyFast.API.Repository
                     if (response.IsSuccessStatusCode)
                     {
                         var body = await response.Content.ReadAsStringAsync();
+                        isBooked = true;
                     }
                 }
             }
@@ -113,6 +114,8 @@ namespace FlyFast.API.Repository
             {
                 _logger.Debug(ex);
             }
+
+            return isBooked;
         }
 
 

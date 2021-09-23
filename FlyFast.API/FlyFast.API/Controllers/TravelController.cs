@@ -77,6 +77,18 @@ namespace FlyFast.API.Controllers
         }
 
         [HttpGet]
+        [Route("TravelsCache")]
+        public async Task<List<Trip>> GetListOfTravelCache(DateTime date)
+        {
+            List<Trip> trips = new List<Trip>();
+
+            trips = _repository.GetTravels();
+            var sortedTrip = trips.Where(x => x.Date.Date == date.Date).ToList();           
+
+            return sortedTrip;
+        }
+
+        [HttpGet]
         [Route("Lines")]
         public List<Line> GetListOfLines()
         {

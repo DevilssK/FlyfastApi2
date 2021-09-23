@@ -42,7 +42,7 @@ namespace FlyFast.API.Repository
                         NbrPlaceFirstClass = 0,
                         Options =  new List<Option> (),
                     },
-                    Price = 300,
+                    Price = 300 * 0.85F,
                     CommissionPercentage = 0,
                     BasePrice = 300 ,
                     Date = DateTime.Now.AddDays(i),
@@ -60,13 +60,13 @@ namespace FlyFast.API.Repository
                             new Option()
                             {
                                 Name = "FirstClass",
-                                Price = 700*100/100
+                                Price = (700*100/100) * 0.85F,
                             }
                         }
                     },
-                    Price = 700,
+                    Price = 700 * 0.85F,
                        CommissionPercentage = 0,
-                    BasePrice = 300 ,
+                    BasePrice = 700 ,
                      Date = DateTime.Now.AddDays(i).AddHours(8)
                   }
                 }
@@ -125,7 +125,7 @@ namespace FlyFast.API.Repository
                     },
                     Price = 700,
                        CommissionPercentage = 0,
-                    BasePrice = 300 ,
+                    BasePrice = 700 ,
                        Date = DateTime.Now.AddDays(i)
                   }
                 },
@@ -157,7 +157,7 @@ namespace FlyFast.API.Repository
                     },
                     Price = 700,
                        CommissionPercentage = 0,
-                    BasePrice = 300 ,
+                    BasePrice = 700 ,
                        Date = DateTime.Now.AddDays(i)
                   }
                 },
@@ -190,7 +190,7 @@ namespace FlyFast.API.Repository
                     },
                     Price = 1000,
                        CommissionPercentage = 0,
-                    BasePrice = 300 ,
+                    BasePrice = 1000 ,
                     Date = DateTime.Now.AddDays(i)
                   }
                 },
@@ -222,7 +222,7 @@ namespace FlyFast.API.Repository
                     },
                     Price = 1000,
                        CommissionPercentage = 0,
-                    BasePrice = 300 ,
+                    BasePrice = 1000 ,
                     Date = DateTime.Now.AddDays(i)
                   }
                 },
