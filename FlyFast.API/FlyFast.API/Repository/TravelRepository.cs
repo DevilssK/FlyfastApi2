@@ -263,10 +263,14 @@ namespace FlyFast.API.Repository
 
         }
 
-        internal void CreateExternalOrder(ReservationViewModel reservation, Customer customer)
+        internal Order CreateExternalOrder(ReservationViewModel reservation, Customer customer)
         {
-            if (reservation.company == ExternalProfRepository.External_Name)
-                CACHE.Orders.Add(new Order()
+            Order anOrder = new Order();
+
+
+            if (reservation.company == (new ExternalProfRepository()).External_Name)
+            {
+                anOrder = new Order()
                 {
                     priceEUR = Convert.ToInt32(reservation.PriceEUR * 1.1),
                     priceUSD = Convert.ToInt32(reservation.PriceUSD * 1.1),
@@ -276,11 +280,14 @@ namespace FlyFast.API.Repository
                         Company = reservation.company
                     },
                     customer = customer
-                });
+                };
+                CACHE.Orders.Add(anOrder);
+            }
+            return anOrder;
         }
 
 
-        internal void CreateOrder(ReservationViewModel reservation, Customer customer)
+        internal Order CreateOrder(ReservationViewModel reservation, Customer customer)
         {
             List<Line> lines = CACHE.Trips.Where(x => x.Id == reservation.tripId).FirstOrDefault().Line;
 
@@ -311,14 +318,18 @@ namespace FlyFast.API.Repository
                 AddCustomerInPlane(customer, lines.FirstOrDefault().Plane, reservation.Lines.FirstOrDefault().TicketType);
             }
 
-
-            CACHE.Orders.Add(new Order()
+            Order anOrder = new Order()
             {
-                priceEUR = price,
+                priceEUR = reservation.PriceEUR,
+                priceUSD = reservation.PriceUSD,
+                company = reservation.company,
                 date = DateTime.Now,
                 trip = CACHE.Trips.Where(x => x.Id == reservation.tripId).FirstOrDefault(),
                 customer = customer
-            });
+            };
+            CACHE.Orders.Add(anOrder);
+
+            return anOrder;
         }
 
         public void AddCustomerInPlane(Customer customer, Plane plane, TICKET_TYPE type)

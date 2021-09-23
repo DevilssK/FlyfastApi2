@@ -148,8 +148,13 @@ namespace FlyFast.API.Controllers
 
         [HttpPost]
         [Route("Book")]
-        public HttpResponseMessage PostReservation(ReservationViewModel reservation)
+        public async Task<IHttpActionResult> PostReservation(ReservationViewModel reservation)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             _logger.Debug("================================================================");
             _logger.Debug("Request [Route('Book')] ");
             _logger.Debug($"ViewModel en param  : {Newtonsoft.Json.JsonConvert.SerializeObject(reservation)}");
@@ -159,13 +164,13 @@ namespace FlyFast.API.Controllers
             customer.Name = reservation.customerName;
             if (reservation.company == "FLY_FAST_COMPANY")
             {
-                _repository.CreateOrder(reservation, customer);
-                return new HttpResponseMessage(HttpStatusCode.OK);
+               
+                return Ok(_repository.CreateOrder(reservation, customer));
             }
             else
             {
-                _repository.CreateExternalOrder(reservation, customer);
-                return new HttpResponseMessage(HttpStatusCode.OK);
+                
+                return Ok(_repository.CreateExternalOrder(reservation, customer));
             }
         }
     }
