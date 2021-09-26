@@ -189,6 +189,7 @@
     <Compile Include="Models\TICKET_TYPE.cs" />
     <Compile Include="Models\Trip.cs" />
     <Compile Include="Models\ViewModels\EnveloppeDeviseViewModel.cs" />
+    <Compile Include="Models\ViewModels\FeesViewModel.cs" />
     <Compile Include="Models\ViewModels\ReservationViewModel.cs" />
     <Compile Include="Models\ViewModels\UserLineViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -282,6 +283,9 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

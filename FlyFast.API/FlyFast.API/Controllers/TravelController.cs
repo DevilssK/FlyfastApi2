@@ -16,7 +16,7 @@ using System.Web.Http.Cors;
 
 namespace FlyFast.API.Controllers
 {
-    [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
+    [EnableCors(origins: "http://localhost:4200,https://xenodochial-meitner-2a2721.netlify.app", headers: "*", methods: "*")]
     public class TravelController : ApiController
     {
         #region [Logger]
@@ -158,6 +158,48 @@ namespace FlyFast.API.Controllers
             return orders;
         }
 
+        [HttpGet]
+        [Route("CompanyFees")]
+        public FeesViewModel GetFeesCompany(string Company, int Month, int Year)
+        {
+            FeesViewModel feesViewModel = new FeesViewModel();
+            feesViewModel.SalesPriceEur  = 0;
+            feesViewModel.SalesPriceUsd  = 0;
+
+            List<Order> orders = null;
+
+            _logger.Debug("================================================================");
+            _logger.Debug("Request [Route('GetCommissonCompany')] ");
+            _logger.Debug($"Param  : {Company}");
+            _logger.Debug("================================================================");
+
+            orders = CACHE.Orders.Where(w => w.company == Company && w.date.Year ==  Year  && w.date.Month ==  Month).ToList();
+
+            foreach (var order in orders)
+            {
+                feesViewModel.SalesPriceEur = order.priceEUR;
+                feesViewModel.SalesPriceUsd = order.priceUSD;
+            }
+
+            feesViewModel.FeesEur = feesViewModel.SalesPriceEur * 0.05F;
+            feesViewModel.FeesUsd = feesViewModel.SalesPriceUsd * 0.05F;
+            feesViewModel.Company = Company;
+
+            feesViewModel.Commission = 0.05F;
+
+            var lastOrder = orders.OrderBy(o => o.date).FirstOrDefault();
+
+            feesViewModel.DateLastOrder = lastOrder.date;
+
+            feesViewModel.IsBilled = false;
+            if (DateTime.Now.Year > Year && DateTime.Now.Month > Month)
+            {
+                feesViewModel.IsBilled = true;
+            }           
+
+            return feesViewModel;
+        }
+
         [HttpPost]
         [Route("Book")]
         public async Task<IHttpActionResult> PostReservation(ReservationViewModel reservation)
@@ -192,5 +234,7 @@ namespace FlyFast.API.Controllers
                 return Ok(_repository.CreateExternalOrder(reservation, customer));
             }
         }
+
+
     }
 }

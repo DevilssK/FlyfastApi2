@@ -10,6 +10,7 @@ namespace FlyFastApiProvider.Models.ViewModels
     {
         public int LineId { get; set; }
         public TICKET_TYPE TicketType { get; set; }
-       
+        public List<Option> Options { get; set; }
+
     }
 }

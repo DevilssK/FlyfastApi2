@@ -244,8 +244,9 @@ namespace FlyFast.API.Repository
                 {
                     Name = "toto"
                 },
-                date = new DateTime(),
-                trip = CACHE.Trips[1]
+                date = DateTime.Now,
+                trip = CACHE.Trips[1],
+                company = "FLY_FAST_COMPANY"
 
             });
 
@@ -256,8 +257,9 @@ namespace FlyFast.API.Repository
                 {
                     Name = "tutu"
                 },
-                date = new DateTime(),
-                trip = CACHE.Trips[1]
+                date = DateTime.Now,
+                trip = CACHE.Trips[1],
+                company = "FLY_FAST_COMPANY"
 
             });
 

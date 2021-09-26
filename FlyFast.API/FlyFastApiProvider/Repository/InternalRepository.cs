@@ -45,6 +45,28 @@ namespace FlyFastApiProvider.Repository
             return trips;
         }
 
+        public async Task<ReservationViewModel> GetFees(string Company, int Month, int Year)
+        {
+            ReservationViewModel reservationViewModel = new ReservationViewModel();
+
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Accept.Clear();
+                HttpResponseMessage response = await client.GetAsync($"{URL_INTERNAL}/CompanyFees/?Company={Company}&Month={Month}&{Year}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var body = await response.Content.ReadAsStringAsync();
+
+                    reservationViewModel = JsonConvert.DeserializeObject<ReservationViewModel>(body);
+
+
+                }
+            }
+
+            return reservationViewModel;
+        }
+
         public string BookJson()
         {
             string travelsJson = string.Empty;

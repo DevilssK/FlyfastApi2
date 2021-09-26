@@ -11,21 +11,13 @@ namespace FlyFastApiProvider.Models.ViewModels
         [Required]
         public string customerName { get; set; }
         public int tripId { get; set; }
-        public List<UserLineViewModel> Lines { get; set; }
-        
-        [Required]
-        public int BasePrice { get; set; }
+        public List<UserLineViewModel> Lines { get; set; }       
 
         [Required]
-        public float PriceEUR { get; set; }
+        public string Date { get; set; }
 
         [Required]
-        public float PriceUSD { get; set; }
-
-        [Required]
-        public string date { get; set; }
-
-        [Required]
-        public string company { get; set; }
+        [Display(Description ="Nom de votre entreprise ")]
+        public string Company { get; set; }
     }
 }

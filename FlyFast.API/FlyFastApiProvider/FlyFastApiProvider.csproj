@@ -170,6 +170,8 @@
     <Compile Include="Models\TICKET_TYPE.cs" />
     <Compile Include="Models\Trip.cs" />
     <Compile Include="Models\ViewModels\EnveloppeDeviseViewModel.cs" />
+    <Compile Include="Models\ViewModels\FeesRequestViewModel.cs" />
+    <Compile Include="Models\ViewModels\FeesViewModel.cs" />
     <Compile Include="Models\ViewModels\ReservationViewModel.cs" />
     <Compile Include="Models\ViewModels\UserLineViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

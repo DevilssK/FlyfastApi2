@@ -50,6 +50,30 @@ namespace FlyFastApiProvider.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("Fees")]
+        public async Task<IHttpActionResult> GetFees(FeesRequestViewModel feesRequestViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            string dateString = $"{feesRequestViewModel.Year}-{feesRequestViewModel.Month}-31";
+            DateTime date = new DateTime();
+            bool isADatetime = DateTime.TryParse(dateString, out date);
+
+            if (!isADatetime)
+            {
+                return BadRequest($"Le mois ({feesRequestViewModel.Month}) ou l'année ({feesRequestViewModel.Year}) est incorrect.");
+            }
+
+            using (internalRepository)
+            {
+                return Ok(await internalRepository.GetFees(feesRequestViewModel.Company , feesRequestViewModel.Month , feesRequestViewModel.Year));
+            }
+        }
+
 
     }
 }
